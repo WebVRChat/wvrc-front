@@ -21,7 +21,7 @@ player.onCreation(function(id) {
 });
 
 player.onConnection(function(connection) {
-    $('#message_area').append(`<li> Logger : ${connection.peer} + " is connected.</li>`);
+    $('#message_area').append(`<li> Logger : ${connection.peer} is connected.</li>`);
 
     // Add a new box representing the player.
     $('a-scene').append(
