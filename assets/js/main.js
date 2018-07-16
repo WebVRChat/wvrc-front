@@ -58,9 +58,9 @@ $('#connect_submit').click(function() {
     player.connect(peer_id);
 });
 
-$('#message_submit').click(
-    player.sendChat($('#message_input').val())
-);
+$('#message_submit').click(function() {
+    player.sendChat($('#message_input').val());
+});
 
 $('#toggle_audio').click(function() {
     player.toggleAudioStream();

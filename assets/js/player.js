@@ -20,7 +20,7 @@ class Player {
      * @return
      *  Escaped string
      */
-    static _escape(input) {
+    _escape(input) {
         // XSS protection
         return input.replace(/\&/g, '&amp;')
             .replace(/\</g, '&lt;')
@@ -74,9 +74,10 @@ class Player {
      *  Function that handle the message sent
      */
     onChat(handler) {
+        var that = this;
         this.onData(function(connection, message) {
             if (message.chat) {
-                handler(connection, this._escape(message.chat));
+                handler(connection, that._escape(message.chat));
             }
         });
     }
