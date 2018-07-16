@@ -114,7 +114,7 @@ class Player {
      *  Message to send
      */
     sendChat(message) {
-        for (var peer in this.others) {
+        for (let peer in this.others) {
             this.others[peer].data.send({chat: this._escape(message)});
         }
     }
@@ -123,7 +123,7 @@ class Player {
      * Send position to a peer
      */
     sendPosition() {
-        for (var peer in this.others) {
+        for (let peer in this.others) {
             this.others[peer].data.send({
                 position: this.position,
                 rotation: this.rotation

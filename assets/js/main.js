@@ -1,16 +1,21 @@
 player = new Player();
 
-setInterval(player.sendPosition, 1000); // Send the position of the player each seconds.
+setInterval(function() {player.sendPosition();}, 1000); // Send the position of the player each seconds.
 
 // TODO: DRY and add support for rotation.
+camera = document.querySelector('#splayer_camera');
+
 $("#message_x").change(function() {
     player.position.x = $('#message_x').val();
+    camera.setAttribute('position', player.position);
 });
 $("#message_y").change(function() {
     player.position.y = $('#message_y').val();
+    camera.setAttribute('position', player.position);
 });
 $("#message_z").change(function() {
     player.position.z = $('#message_z').val();
+    camera.setAttribute('position', player.position);
 });
 
 
