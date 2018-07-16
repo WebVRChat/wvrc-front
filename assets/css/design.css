@@ -1,0 +1,33 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+input[type=number] {
+    width: 40px;
+    margin: 0;
+}
+
+.control_container {
+    position: relative;
+    background-color: white;
+    width: 40%;
+    padding: 10px;
+    z-index: 10000;
+}
+
+a-scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#message_area {
+    overflow: auto;
+    height: 480px;
+    border-left: 6px solid rgb(0, 153, 255);
+    background-color: rgb(204, 230, 255);
+}
