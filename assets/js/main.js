@@ -59,7 +59,10 @@ $('#connect_submit').click(function() {
 });
 
 $('#message_submit').click(function() {
-    player.sendChat($('#message_input').val());
+    chat = $('#message_input').val();
+
+    $('#message_area').append(`<li> You : ${chat}</li>`);
+    player.sendChat(chat);
 });
 
 $('#toggle_audio').click(function() {
