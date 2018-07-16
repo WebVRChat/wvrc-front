@@ -62,11 +62,10 @@ class Player {
     onDisconnection(handler) {
         var that = this;
         that.onData(function(connection, message) {
-            if (!(message.status == 'disconnected')) {
-                return;
+            if (message.status == 'disconnected') {
+                delete that.others[connection.peer];
+                handler(connection);
             }
-            delete that.others[connection.peer];
-            handler(connection);
         });
     }
 
