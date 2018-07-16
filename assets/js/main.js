@@ -1,4 +1,4 @@
-player = new Player();
+var player = new Player();
 
 setInterval(function() {player.sendPosition();}, 1000); // Send the position of the player each seconds.
 
@@ -55,6 +55,7 @@ player.getAudio(
         $('#message_area').append("<li> Logger : Audio error => " + error + "</li>");  
     }
 );
+
 
 // Handle local player actions
 
