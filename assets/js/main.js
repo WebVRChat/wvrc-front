@@ -1,26 +1,45 @@
 var player = new Player();
-camera = document.querySelector('#splayer_camera');
 
-setInterval(() => {
-    player.rotation = camera.getAttribute("rotation");
-    player.sendPosition();
-}, 500); // Send the position of the player each 0.5s.
 
-$(camera).change(function () {
-    console.log(document.querySelector('#splayer_camera'));
-});
+// Custom functions
 
-for (let i=120; i < 123; i++) {
-    let L = String.fromCharCode(i);
-    $("#message_" + L).change(function() {
-        player.position[L] = $("#message_" + L).val();
-        camera.setAttribute('position', player.position);
-    });
+/**
+ * Print a message in the chat area.
+ */
+function log(message) {
+    $('#message_area').append(`<li>${message}</li>`);
 }
 
-const log = ((msg) => {
-    $('#message_area').append(`<li>${msg}</li>`)
+/**
+ * Send the message the user wrote in the textbox.
+ */
+function sendMessage() {
+    chat = $('#message_input').val();
+    $("#message_input").val("");  // Clear the textbox.
+
+    log(`You : ${chat}`);
+    player.sendChat(chat);
+};
+
+
+// Position synchronisation
+
+camera = document.querySelector('#splayer_camera');
+
+// Send the position of the player each 0.5s.
+setInterval(function() {
+    player.rotation = camera.getAttribute("rotation");
+    player.sendPosition();
+}, 500); 
+
+// Synchronizes the position of the player.
+['x', 'y', 'z'].forEach(function(axis) {
+    $("#message_" + axis).change(function() {
+        player.position[axis] = $("#message_" + axis).val();
+        camera.setAttribute('position', player.position);
+    });
 });
+
 
 // Handle the events.
 
@@ -63,6 +82,11 @@ player.getAudio(
     }
 );
 
+$(window).on('unload', function() {
+    player.disconnect();
+});
+
+
 // Handle local player actions
 
 $('#connect_submit').click(function() {
@@ -70,19 +94,12 @@ $('#connect_submit').click(function() {
     player.connect(peer_id);
 });
 
-let sendMsg = function() {
-    chat = $('#message_input').val();
-    $("#message_input").val("");
-
-    log(`You : ${chat}`);
-    player.sendChat(chat);
-};
-
-$('#message_submit').click(sendMsg);
+$('#message_submit').click(sendMessage);
 
 $('input[type=text]').on('keydown', function(e) {
-    if (e.which == 13)
-        sendMsg();
+    if (e.which == 13) {  // When user press enter
+        sendMessage();
+    }
 });
 
 $('#toggle_audio').click(function() {
@@ -104,8 +121,4 @@ $('#toggle_audio').click(function() {
         $('#toggle_audio').text("Activate audio chat");
         log("Logger : Audio stream stopped.");
     }
-});
-
-$(window).on('unload', function () {
-    player.disconnect();
 });
