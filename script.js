@@ -91,11 +91,10 @@ var x = 0;
 var y = 0;
 var z = 0;
 
-function send_pos(chat='') {
+function send_pos() {
     camera = document.querySelector('#splayer_camera');
 
     message = {
-        chat: escape_output(chat),
         x: $('#message_x').val(),
         y: $('#message_y').val(),
         z: $('#message_z').val(),
@@ -104,17 +103,11 @@ function send_pos(chat='') {
         rz: camera.getAttribute('rotation').z
     };
 
-    if (([x, y, z] != [message.x, message.y, message.z]) || chat) {
-        if (chat) {
-            $('#message_area').append(`<li>You (${message.x}, ${message.y}, ${message.z}): ${message.chat} </li>`);
-        }
+    x = message.x;
+    y = message.y;
+    z = message.z;
 
-        x = message.x;
-        y = message.y;
-        z = message.z;
-
-        node.send_data(message);
-    }
+    node.send_data(message);
 
     camera.setAttribute('position', {x: message.x, y: message.y, z: message.z});
 }
