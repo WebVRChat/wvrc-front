@@ -6,6 +6,12 @@
 function isCommand(string) {
 	if (string === "/help")
 		return true;
+	else if (string.substr(0, 8) === "/connect")
+		return true;
+	else if (string === "/audio")
+		return true;
+	else if (string.substr(0, 3) === "/tp")
+		return true;
 	return false;
 }
 
@@ -13,8 +19,17 @@ function isCommand(string) {
  * Do stuff
  */
 function processCommand(command) {
-	if (command === "/help")
-		log("Command: help")
+	if (command === "/help") {
+		log("Command: help connect audio tp")
+	} else if (command.substr(0, 8) === "/connect") {
+		log("Logger: Connecting to " + command.substr(9));
+		player.connect(command.substr(9));
+	} else if (command === "/audio") {
+		toggle_audio();
+	} else if (command.substr(0, 3) === "/tp") {
+		log("Logger: TP to " + command.substr(4));
+		/// parse integers and all that stuff
+	}
 }
 
 /**
