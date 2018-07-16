@@ -1,32 +1,35 @@
 var player = new Player();
-
-setInterval(function() {player.sendPosition();}, 1000); // Send the position of the player each seconds.
-
-// TODO: DRY and add support for rotation.
 camera = document.querySelector('#splayer_camera');
 
-$("#message_x").change(function() {
-    player.position.x = $('#message_x').val();
-    camera.setAttribute('position', player.position);
-});
-$("#message_y").change(function() {
-    player.position.y = $('#message_y').val();
-    camera.setAttribute('position', player.position);
-});
-$("#message_z").change(function() {
-    player.position.z = $('#message_z').val();
-    camera.setAttribute('position', player.position);
+setInterval(() => {
+    player.rotation = camera.getAttribute("rotation");
+    player.sendPosition();
+}, 500); // Send the position of the player each 0.5s.
+
+$(camera).change(function () {
+    console.log(document.querySelector('#splayer_camera'));
 });
 
+for (let i=120; i < 123; i++) {
+    let L = String.fromCharCode(i);
+    $("#message_" + L).change(function() {
+        player.position[L] = $("#message_" + L).val();
+        camera.setAttribute('position', player.position);
+    });
+}
+
+const log = ((msg) => {
+    $('#message_area').append(`<li>${msg}</li>`)
+});
 
 // Handle the events.
 
 player.onCreation(function(id) {
-    $('#message_area').append(`<li> Logger : Your peer ID is : ${id}.</li>`);
+    log(`Logger: Your peer ID is : ${id}.`);
 });
 
 player.onConnection(function(connection) {
-    $('#message_area').append(`<li> Logger : ${connection.peer} is connected.</li>`);
+    log(`Logger: ${connection.peer} is connected.`);
 
     // Add a new box representing the player.
     $('a-scene').append(
@@ -35,11 +38,11 @@ player.onConnection(function(connection) {
 });
 
 player.onDisconnection(function(connection) {
-    $('#message_area').append(`<li> Logger: ${connection.peer} disconnected.</li>`);
+    log(`${connection.peer} disconnected.`);
 });
 
 player.onChat(function(connection, chat) {
-    $('#message_area').append(`<li>${connection.peer} : <b>${chat}</b></li>`);
+    log(`${connection.peer} : <b>${chat}</b>`);
 });
 
 player.onPosition(function(connection, position, rotation) {
@@ -56,10 +59,9 @@ player.getAudio(
         audio_streamer.play();
     },
     function(error) {
-        $('#message_area').append("<li> Logger : Audio error => " + error + "</li>");  
+        log("Logger : Audio error => " + error);
     }
 );
-
 
 // Handle local player actions
 
@@ -68,11 +70,19 @@ $('#connect_submit').click(function() {
     player.connect(peer_id);
 });
 
-$('#message_submit').click(function() {
+let sendMsg = function() {
     chat = $('#message_input').val();
+    $("#message_input").val("");
 
-    $('#message_area').append(`<li> You : ${chat}</li>`);
+    log(`You : ${chat}`);
     player.sendChat(chat);
+};
+
+$('#message_submit').click(sendMsg);
+
+$('input[type=text]').on('keydown', function(e) {
+    if (e.which == 13)
+        sendMsg();
 });
 
 $('#toggle_audio').click(function() {
@@ -83,19 +93,19 @@ $('#toggle_audio').click(function() {
 
         player.streamAudio(
             function(stream) {
-                $('#message_area').append("<li> Logger : Audio streaming.</li>");
+                log("Logger : Audio streaming.");
             },
             function (error) {
-                $('#message_area').append("<li> Logger : Audio can't be streamed.</li>");
+                log("Logger : Audio can't be streamed.");
             }
         );
 
     } else {
         $('#toggle_audio').text("Activate audio chat");
-        $('#message_area').append("<li> Logger : Audio stream stopped.</li>");
+        log("Logger : Audio stream stopped.");
     }
 });
 
 $(window).on('unload', function () {
-    player.disconnect(); 
+    player.disconnect();
 });

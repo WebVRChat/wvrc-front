@@ -5,43 +5,43 @@
         <meta name="author" content="Yir, the_new_sky" />
         <meta name="description" content="Web VR Chat (very noice, come there com'rad !)" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <title>UNNAMED</title>
-        
+
         <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.9/peer.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="assets/css/design.css" />
     </head>
 
     <body>
-        <div class="control_container">            
+        <div class="control_container">
             <input id="connect_peer" type="text" placeholder="Connect to peer" />
             <button id="connect_submit">Connect</button>
-            
+
             <button id="toggle_audio">Activate audio chat</button>
             <audio id="audio_streamer"></audio>
             <br />
-            
+
             X : <input id="message_x" type="number" value="0"/>
             Y : <input id="message_y" type="number" value="1.6"/>
             Z : <input id="message_z" type="number" value="0"/>
             <br /><br />
-            
+
             <ul id="message_area"></ul>
-            
+
             <input id="message_input" type="text" placeholder="Say Hi !" />
             <button id="message_submit">Send</button>
         </div>
-        
+
         <a-scene embedded>
             <a-camera id="splayer_camera" position="0 1.6 0" rotation="0 0 0" look-controls></a-box>
         </a-scene>
 
         <script src="assets/js/player.js"></script>
-        <script src="assets/js/main.js"></script> 
+        <script src="assets/js/main.js"></script>
     </body>
 </html>
