@@ -119,10 +119,14 @@ function send_pos(chat='') {
     camera.setAttribute('position', {x: message.x, y: message.y, z: message.z});
 }
 
-async function cyclic_send_pos() {
+/*async function cyclic_send_pos() {
     await send_pos();
     setInterval(cyclic_send_pos, 1000);
-}
+}*/
+
+$("#message_x").change(send_pos());
+$("#message_y").change(send_pos());
+$("#message_z").change(send_pos());
 
 node.on_creation(function(id) {
     $('#peer_id_message').text('Your peer ID is : ' + id);
