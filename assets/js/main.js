@@ -17,7 +17,7 @@ $("#message_z").change(function() {
 // Handle the events.
 
 player.onCreation(function(id) {
-    $('#peer_id_message').text('Your peer ID is : ' + id);
+    $('#message_area').append(`<li> Logger : Your peer ID is : ${id}.</li>`);
 });
 
 player.onConnection(function(connection) {
