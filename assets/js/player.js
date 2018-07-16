@@ -46,11 +46,26 @@ class Player {
      */
     onConnection(handler) {
         var that = this;
-
         that.peer.on('connection', function(connection) {
             if (!(connection.peer in that.others)) {
                 that.connect(connection.peer);
             }
+            handler(connection);
+        });
+    }
+
+    /**
+     * Handle other peer disconnection
+     * @param {function} handler
+     *  Function that handle disconnection event
+     */
+    onDisconnection(handler) {
+        var that = this;
+        that.onData(function(connection, message) {
+            if (!(message.status == 'disconnected')) {
+                return;
+            }
+            delete that.others[connection.peer];
             handler(connection);
         });
     }
@@ -109,6 +124,15 @@ class Player {
     }
 
     /**
+     * Disconnect all other peers
+     */
+    disconnect() {
+        for (let peer in this.others) {
+            this.others[peer].data.send({status: 'disconnected'});
+        }
+    }
+
+     /**
      * Send message to a peer
      * @param {string} message
      *  Message to send

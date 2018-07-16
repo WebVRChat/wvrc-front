@@ -34,6 +34,10 @@ player.onConnection(function(connection) {
     );
 });
 
+player.onDisconnection(function(connection) {
+    $('#message_area').append(`<li> Logger: ${connection.peer} disconnected.</li>`);
+});
+
 player.onChat(function(connection, chat) {
     $('#message_area').append(`<li>${connection.peer} : <b>${chat}</b></li>`);
 });
@@ -90,4 +94,8 @@ $('#toggle_audio').click(function() {
         $('#toggle_audio').text("Activate audio chat");
         $('#message_area').append("<li> Logger : Audio stream stopped.</li>");
     }
+});
+
+$(window).on('unload', function () {
+    player.disconnect(); 
 });
