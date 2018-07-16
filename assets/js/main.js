@@ -4,22 +4,25 @@ var player = new Player();
 // Custom functions
 
 /**
- * Print a message in the chat area.
+ * Get locale of navigator
  */
-function log(message) {
-    $('#message_area').append(`<li>${message}</li>`);
+function getLocale()
+{
+    if (navigator.languages != undefined)
+        return navigator.languages[0];
+    else
+        return navigator.language;
 }
 
 /**
- * Send the message the user wrote in the textbox.
+ * Print a message in the chat area.
  */
-function sendMessage() {
-    chat = $('#message_input').val();
-    $("#message_input").val("");  // Clear the textbox.
-
-    log(`You : ${chat}`);
-    player.sendChat(chat);
-};
+function log(message) {
+    let d = new Date();
+    let t = d.toLocaleTimeString(getLocale());
+    $('#message_area').append(`<li>[${t}] ${message}</li>`);
+    $("#message_area")[0].scrollTop = $("#message_area")[0].scrollHeight;
+}
 
 
 // Position synchronisation
@@ -30,7 +33,7 @@ camera = document.querySelector('#splayer_camera');
 setInterval(function() {
     player.rotation = camera.getAttribute("rotation");
     player.sendPosition();
-}, 500); 
+}, 500);
 
 // Synchronizes the position of the player.
 ['x', 'y', 'z'].forEach(function(axis) {
@@ -92,14 +95,6 @@ $(window).on('unload', function() {
 $('#connect_submit').click(function() {
     peer_id = $('#connect_peer').val();
     player.connect(peer_id);
-});
-
-$('#message_submit').click(sendMessage);
-
-$('input[type=text]').on('keydown', function(e) {
-    if (e.which == 13) {  // When user press enter
-        sendMessage();
-    }
 });
 
 $('#toggle_audio').click(function() {
