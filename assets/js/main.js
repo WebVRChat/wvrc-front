@@ -6,21 +6,22 @@ var player = new Player();
 /**
  * Get locale of navigator
  */
-function getLocale()
-{
-    if (navigator.languages != undefined)
+function getLocale() {
+    if (navigator.languages != undefined) {
         return navigator.languages[0];
-    else
+    } else {
         return navigator.language;
+    }
 }
 
 /**
  * Print a message in the chat area.
  */
 function log(message) {
-    let d = new Date();
-    let t = d.toLocaleTimeString(getLocale());
-    $('#message_area').append(`<li>[${t}] ${message}</li>`);
+    var now = new Date();
+    var time = now.toLocaleTimeString(getLocale());
+
+    $('#message_area').append(`<li>[${time}] ${message}</li>`);
     $("#message_area")[0].scrollTop = $("#message_area")[0].scrollHeight;
 }
 
@@ -124,23 +125,4 @@ $('#connect_submit').click(function() {
     player.connect(peer_id);
 });
 
-$('#toggle_audio').click(function() {
-    player.toggleAudioStream();
-
-    if (player.isStreamingAudio) {
-        $('#toggle_audio').text("Disable audio chat");
-
-        player.streamAudio(
-            function(stream) {
-                log("Logger : Audio streaming.");
-            },
-            function (error) {
-                log("Logger : Audio can't be streamed.");
-            }
-        );
-
-    } else {
-        $('#toggle_audio').text("Activate audio chat");
-        log("Logger : Audio stream stopped.");
-    }
-});
+$('#toggle_audio').click(toggle_audio);
