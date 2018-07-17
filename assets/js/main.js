@@ -24,6 +24,38 @@ function log(message) {
     $("#message_area")[0].scrollTop = $("#message_area")[0].scrollHeight;
 }
 
+/**
+ * Starting audio sharing
+ */
+function toggle_audio() {
+    player.toggleAudioStream();
+
+    if (player.isStreamingAudio) {
+        $('#toggle_audio').text("Disable audio chat");
+
+        player.streamAudio(
+            function(stream) {
+                log("Logger : Audio streaming.");
+            },
+            function (error) {
+                log("Logger : Audio can't be streamed.");
+            }
+        );
+
+    } else {
+        $('#toggle_audio').text("Activate audio chat");
+        log("Logger : Audio stream stopped.");
+    }
+}
+
+/**
+ * Moving the player around, given an axis ('x', 'y' or 'z') and a value (absolute)
+ */
+function move_player(axis, value) {
+    player.position[axis] = value;
+    camera.setAttribute('position', player.position);
+}
+
 
 // Position synchronisation
 
@@ -38,8 +70,7 @@ setInterval(function() {
 // Synchronizes the position of the player.
 ['x', 'y', 'z'].forEach(function(axis) {
     $("#message_" + axis).change(function() {
-        player.position[axis] = $("#message_" + axis).val();
-        camera.setAttribute('position', player.position);
+        move_player(axis, $("#message_" + axis).val());
     });
 });
 

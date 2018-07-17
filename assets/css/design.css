@@ -12,6 +12,7 @@ input[type=number] {
     position: relative;
     background-color: white;
     width: 50%;
+    height: 100%;
     padding: 10px;
     z-index: 10000;
 }
@@ -31,6 +32,9 @@ div#messages {
     border-left: 6px solid rgb(0, 153, 255);
     background-color: rgb(204, 230, 255);
     padding: 10px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
 }
 
 ul#message_area {
