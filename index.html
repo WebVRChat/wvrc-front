@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="author" content="Yir, the_new_sky" />
+        <meta name="description" content="Web VR Chat (very noice, come there com'rad !)" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>UNNAMED</title>
+        
+        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.9/peer.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="assets/css/design.css" />
+
+        <style>
+            .form-container {
+                margin-top: 5%; 
+                border: 1px solid black; 
+                display: block; 
+                width: 33%; 
+                padding: 2%;
+            }
+
+            #error {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container form-container">
+            <label> Username: </label> <input type="text" id="username" />
+                <br/> <br/>
+            <label> Password: </label> <input type="password" id="password" /> <br/> <br/>
+
+            <input type="checkbox" id="toggle-options" /> <label for="options"> More options ... </label> <br/>
+            
+            <span id="error"></span>
+
+            <div id="options" style="display:none;">
+                <label> API URL: </label> <input type="text" id="api-url" value="http://localhost:5050"/>
+                <br/> <br/>
+                <label> PeerJS URL: </label> <input type="text" id="peerjs-url" value="" />
+            </div>
+
+            <center> <button id="submit"> Login </button> </center>
+        </div>
+
+        <script>
+            $("#toggle-options").change(function() {
+                if ($(this).is(":checked")) {
+                    $("#options").css("display", "");
+                } else {
+                    $("#options").css("display", "none");
+                }
+            });
+
+            $("#submit").click(function() {
+                let apiUrl = $("#api-url").val();
+                let peerjsUrl = $("#peerjs-url").val();
+
+                let username = $("#username").val();
+                let password = $("#password").val();
+
+                $.ajax({
+                    method: "POST",
+                    url: apiUrl + "/api/login", 
+                    data: {"username": username, "password": password},
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                })
+                .done(function (data) {
+                    if (data.status == "ok") {
+                        window.location.replace("/list.html?token=" + data.token + "&api=" + apiUrl);
+                    }
+                })
+                .fail(function(data) {
+                    let json = data.responseJSON;
+                    $("#error").text("Error: " + json.reason);
+                    $("#error").css("display", "");
+                });
+            });
+        </script>
+    </body>
+</html>
