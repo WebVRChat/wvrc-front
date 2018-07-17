@@ -26,7 +26,7 @@ a-scene {
 }
 
 div#messages {
-    height: 250px;
+    height: 30vh;
     width: 500px;
     border-left: 6px solid rgb(0, 153, 255);
     background-color: rgb(204, 230, 255);
@@ -38,6 +38,6 @@ div#messages {
 
 ul#message_area {
     overflow: auto;
-    height: 190px;
+    height: 20vh;
     padding: 0px;
 }
