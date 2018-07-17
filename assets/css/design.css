@@ -4,14 +4,13 @@ html, body {
 }
 
 input[type=number] {
-    width: 70px;
+    width: 40px;
     margin: 0;
 }
 
 .control_container {
     position: relative;
-    background-color: white;
-    width: 50%;
+    width: 25%;
     height: 100%;
     padding: 10px;
     z-index: 10000;
