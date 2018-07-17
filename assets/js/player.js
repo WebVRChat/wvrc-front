@@ -8,7 +8,7 @@ class Player {
         this.others = {};
 
         this.position = {x: 0, y: 0, z: 0};
-        this.rotation = {rx: 0, ry: 0, rz: 0};
+        this.rotation = {x: 0, y: 0, z: 0};
 
         this.isStreamingAudio = false;
     }
@@ -172,7 +172,7 @@ class Player {
     /**
      * Move the player and send its rotation to all peers.
      * @param {object} new_rotation
-     *  Rotation '{rx, ry, rz}' to send.
+     *  Rotation '{x, y, z}' to send.
      * @param {function} callback
      *  Function executed after the player rotated.
      */

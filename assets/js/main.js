@@ -54,9 +54,10 @@ function toggle_audio() {
 
 camera = document.querySelector('#splayer_camera');
 
-// Send the position of the player each 0.5s.
+// Send the position of the player each 50ms.
 setInterval(function() {
-    player.rotate(camera.getAttribute("rotation"));
+    player.rotation = camera.getAttribute("rotation");
+    player.sendPosition();
 }, 50);
 
 // Synchronizes the position of the player.
@@ -69,6 +70,39 @@ setInterval(function() {
             camera.setAttribute('position', player.position);
         });
     });
+});
+
+$(document).on('keydown', function(e) {
+    var new_position = Object.assign({}, player.position);
+    var yaw  = player.rotation.y * 180 / Math.PI;
+
+    switch (e.keyCode) {
+        case 38: // up
+        case 87: // w
+        case 90: // z
+            player.position.x += Math.cos(yaw) * .01;
+            player.position.z += Math.sin(yaw) * .01;
+            break;
+
+        case 39: // right
+        case 68: // d
+            player.position.x += Math.sin(yaw) * .01;
+            player.position.z += Math.cos(yaw) * .01;
+            break;
+
+        case 37: // left
+        case 65: // a
+        case 81: // q
+            player.position.x += -Math.sin(yaw) * .01;
+            player.position.z += -Math.cos(yaw) * .01;
+            break;
+
+        case 40: // down
+        case 83: // s
+            player.position.x += -Math.cos(yaw) * .01;
+            player.position.z += -Math.sin(yaw) * .01;
+            break;
+    }
 });
 
 
