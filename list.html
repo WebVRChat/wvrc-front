@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="author" content="Yir, the_new_sky" />
+        <meta name="description" content="Web VR Chat (very noice, come there com'rad !)" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>UNNAMED</title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="assets/js/utils.js"> </script>
+        <script src="assets/js/api.js"> </script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="assets/css/design.css" />
+    </head>
+
+    <body>
+        <div id="create-room-form">
+            <label> Name: </label> <input type="text" id="room-name" /> <br/>
+            <label> Description: </label> <input type="text" id="room-desc" /> <br/>
+            <input type="checkbox" id="room-priv" /> <label> Private room </label> <br/>
+            <span id="error" style="color: red;"> </span> <br/>
+            <button id="create-room"> Create room </button>
+        </div>
+
+        <div id="room-list">
+
+        </div>
+
+        <script>
+            var token = _get("token");
+            var apiUrl = _get("api");
+            var omg ;
+
+            getRooms(
+                apiUrl,
+                function(data) {
+                    if (data.status == "ok") {
+                        omg = data.rooms;
+                        for (id in data.rooms) {
+                            console.log(id);
+                            console.log(data.rooms);
+                            $("#room-list").append("<div id=\"" + id + "\"><a href=\"room.html?token=" + token + "&invite=" + data.rooms[id].invite + "&api=" + apiUrl + "\">" + data.rooms[id].name + "</a><br/><p>" + data.rooms[id].description + "</p></div>");
+                        }
+                    }  
+                },
+                function(data) {
+                },
+            )
+
+            $("#create-room").click(function() {
+                let name = $("#room-name").val();
+                let desc = $("#room-desc").val();
+                let is_private = $("#room-priv").is(':checked');
+
+                createRoom(
+                    apiUrl, token, name, desc, is_private,
+                    function(data) {
+                        console.log(data);
+                    },
+                    function(data) {
+                        let json = data.responseJSON;
+                        $("#error").text("Error: " + json.reason);
+                    }
+                );
+            });
+        </script>
+    </body>
+</html>
