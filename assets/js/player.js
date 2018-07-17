@@ -143,7 +143,7 @@ class Player {
     }
 
     /**
-     * Send position to a peer
+     * Send position to all peers
      */
     sendPosition() {
         for (let peer in this.others) {
@@ -152,6 +152,36 @@ class Player {
                 rotation: this.rotation
             });
         }
+    }
+
+    /**
+     * Move the player and send its position to all peers.
+     * @param {object} new_position
+     *  Position '{x, y, z}' to send.
+     * @param {function} callback
+     *  Function executed after the player moved.
+     */
+    move(new_position, callback=null) {
+        this.position = new_position;
+
+        this.sendPosition();
+
+        if (callback != null) {callback();}
+    }
+
+    /**
+     * Move the player and send its rotation to all peers.
+     * @param {object} new_rotation
+     *  Rotation '{rx, ry, rz}' to send.
+     * @param {function} callback
+     *  Function executed after the player rotated.
+     */
+    rotate(new_rotation, callback=null) {
+        this.rotation = new_rotation;
+
+        this.sendPosition();
+
+        if (callback != null) {callback();}
     }
 
     /**

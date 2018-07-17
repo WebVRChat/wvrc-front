@@ -48,14 +48,6 @@ function toggle_audio() {
     }
 }
 
-/**
- * Moving the player around, given an axis ('x', 'y' or 'z') and a value (absolute)
- */
-function move_player(axis, value) {
-    player.position[axis] = value;
-    camera.setAttribute('position', player.position);
-}
-
 
 // Position synchronisation
 
@@ -63,14 +55,18 @@ camera = document.querySelector('#splayer_camera');
 
 // Send the position of the player each 0.5s.
 setInterval(function() {
-    player.rotation = camera.getAttribute("rotation");
-    player.sendPosition();
-}, 500);
+    player.rotate(camera.getAttribute("rotation"));
+}, 50);
 
 // Synchronizes the position of the player.
 ['x', 'y', 'z'].forEach(function(axis) {
     $("#message_" + axis).change(function() {
-        move_player(axis, $("#message_" + axis).val());
+        var new_position = Object.assign({}, player.position);
+        new_position[axis] = $("#message_" + axis).val();
+
+        player.move(new_position, function() {
+            camera.setAttribute('position', player.position);
+        });
     });
 });
 
