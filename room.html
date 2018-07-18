@@ -9,6 +9,7 @@
         <title>WVRC</title>
 
         <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+        <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.9/peer.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -40,7 +41,7 @@
         </div>
 
         <a-scene embedded>
-            <a-camera id="splayer_camera" position="0 1.6 0" rotation="0 0 0" look-controls></a-camera>
+            <a-camera id="splayer_camera" position="0 1.6 0" rotation="0 0 0" look-controls movement-controls touch-controls></a-camera>
         </a-scene>
 
         <audio id="audio_streamer"></audio>

@@ -7,7 +7,7 @@ class Player {
         this.peer = new Peer(configuration);
         this.others = {};
 
-        this.position = {x: 0, y: 0, z: 0};
+        this.position = {x: 0, y: 1.6, z: 0};
         this.rotation = {x: 0, y: 0, z: 0};
 
         this.isStreamingAudio = false;
@@ -152,36 +152,6 @@ class Player {
                 rotation: this.rotation
             });
         }
-    }
-
-    /**
-     * Move the player and send its position to all peers.
-     * @param {object} new_position
-     *  Position '{x, y, z}' to send.
-     * @param {function} callback
-     *  Function executed after the player moved.
-     */
-    move(new_position, callback=null) {
-        this.position = new_position;
-
-        this.sendPosition();
-
-        if (callback != null) {callback();}
-    }
-
-    /**
-     * Move the player and send its rotation to all peers.
-     * @param {object} new_rotation
-     *  Rotation '{x, y, z}' to send.
-     * @param {function} callback
-     *  Function executed after the player rotated.
-     */
-    rotate(new_rotation, callback=null) {
-        this.rotation = new_rotation;
-
-        this.sendPosition();
-
-        if (callback != null) {callback();}
     }
 
     /**

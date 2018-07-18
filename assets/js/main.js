@@ -54,57 +54,35 @@ function toggle_audio() {
 
 camera = document.querySelector('#splayer_camera');
 
-// Send the position of the player each 50ms.
+// Send the position of the player each 55ms if changed.
 setInterval(function() {
-    player.rotation = camera.getAttribute("rotation");
-    player.sendPosition();
-}, 50);
+    var new_position = camera.getAttribute("position");
+    var new_rotation = camera.getAttribute("rotation");
 
-// Synchronizes the position of the player.
+    if (
+        (new_position.x !== player.position.x) ||
+        (new_position.y !== player.position.y) ||
+        (new_position.z !== player.position.z) ||
+        (new_rotation.x !== player.rotation.x) ||
+        (new_rotation.y !== player.rotation.y) ||
+        (new_rotation.z !== player.rotation.z)
+    ) {
+
+        player.position = {x: new_position.x, y: new_position.y, z: new_position.z};
+        player.rotation = {x: new_rotation.x, y: new_rotation.y, z: new_rotation.z};
+        player.sendPosition();
+    }
+
+}, 55);
+
+// Synchronizes the position of the player with the X, Y, Z textboxes.
 ['x', 'y', 'z'].forEach(function(axis) {
     $("#message_" + axis).change(function() {
-        var new_position = Object.assign({}, player.position);
-        new_position[axis] = $("#message_" + axis).val();
-
-        player.move(new_position, function() {
-            camera.setAttribute('position', player.position);
-        });
+        player.position[axis] = $("#message_" + axis).val();
+        camera.setAttribute('position', player.position);
+        player.sendPosition();
     });
 });
-
-$(document).on('keydown', function(e) {
-    var new_position = Object.assign({}, player.position);
-    var yaw  = player.rotation.y * 180 / Math.PI;
-
-    switch (e.keyCode) {
-        case 38: // up
-        case 87: // w
-        case 90: // z
-            player.position.x += Math.cos(yaw) * .01;
-            player.position.z += Math.sin(yaw) * .01;
-            break;
-
-        case 39: // right
-        case 68: // d
-            player.position.x += Math.sin(yaw) * .01;
-            player.position.z += Math.cos(yaw) * .01;
-            break;
-
-        case 37: // left
-        case 65: // a
-        case 81: // q
-            player.position.x += -Math.sin(yaw) * .01;
-            player.position.z += -Math.cos(yaw) * .01;
-            break;
-
-        case 40: // down
-        case 83: // s
-            player.position.x += -Math.cos(yaw) * .01;
-            player.position.z += -Math.sin(yaw) * .01;
-            break;
-    }
-});
-
 
 // Handle the events.
 
