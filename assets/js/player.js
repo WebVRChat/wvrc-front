@@ -31,6 +31,21 @@ class Player {
     }
 
     /**
+     * Return euclidean distance between the position of the player and another position.
+     * @param {object} position
+     *  The position to compare.
+     * @return
+     *  The distance between the two positions.
+     */
+    getDistance(position) {
+        return Math.sqrt(
+            (position.x - this.position.x) ** 2 +
+            (position.y - this.position.y) ** 2 +
+            (position.z - this.position.z) ** 2
+        )
+    }
+
+    /**
      * Handle peer creation
      * @param {function} handler
      *  Function that handle the creation event
